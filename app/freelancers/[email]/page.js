@@ -56,7 +56,7 @@ export default function FreelancerProfilePage() {
               </div>
               <div style={{ textAlign: "right" }}>
                 <div style={{ fontFamily: "Space Grotesk", fontSize: "1.75rem", fontWeight: 800, color: "#00f5e4" }}>
-                  ${data.hourlyRate || 0}<span style={{ fontSize: "0.8rem", color: "rgba(240,244,255,0.3)", fontWeight: 400" }}>/hr</span>
+                  ${data.hourlyRate || 0}<span style={{ fontSize: "0.8rem", color: "rgba(240,244,255,0.3)", fontWeight: 400 }}>/hr</span>
                 </div>
                 <div style={{ color: "#fbbf24", fontSize: "0.85rem", marginTop: 4 }}>
                   {"★".repeat(stars)}{"☆".repeat(5 - stars)} {data.avgRating?.toFixed(1)}

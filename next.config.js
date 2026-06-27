@@ -3,7 +3,6 @@ const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com", "i.ibb.co", "res.cloudinary.com"],
   },
-  swcMinify: false,
 };
 
 module.exports = nextConfig;
