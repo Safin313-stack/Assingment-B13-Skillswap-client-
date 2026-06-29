@@ -9,30 +9,40 @@ export default function FreelancersPage() {
 
   useEffect(() => {
     api.get("/api/users/freelancers")
-      .then(r => setFreelancers(r.data))
+      .then((r) => setFreelancers(r.data))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
   return (
-    <div style={{ paddingTop: 80, minHeight: "100vh" }}>
-      <div style={{ padding: "3rem 5% 2rem", textAlign: "center", background: "radial-gradient(ellipse 60% 60% at 50% 50%,rgba(139,92,246,0.06),transparent)" }}>
-        <h1 style={{ fontFamily: "Space Grotesk", fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 800, color: "#f0f4ff", letterSpacing: "-0.03em", marginBottom: "0.5rem" }}>
-          Browse <span style={{ background: "linear-gradient(135deg,#8b5cf6,#f472b6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Freelancers</span>
-        </h1>
-        <p style={{ color: "rgba(240,244,255,0.4)", fontSize: "0.95rem" }}>
-          {freelancers.length} verified experts ready to work
-        </p>
-      </div>
+    <div className="page-shell">
+      <section className="page-hero" style={{ padding: "4.5rem 5% 3rem" }}>
+        <div className="hero-content">
+          <div className="hero-badge-row" style={{ justifyContent: "center" }}>
+            <span className="hero-badge">Verified Talent</span>
+            <span className="hero-badge-copy">Browse experts with great ratings and fast delivery</span>
+          </div>
 
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 5% 5rem" }}>
+          <h1 className="hero-title">
+            Browse <span className="grad-text">Freelancers</span>
+          </h1>
+
+          <p className="hero-copy" style={{ maxWidth: 700, margin: "0 auto" }}>
+            {freelancers.length} verified experts ready to help you finish work faster and with confidence.
+          </p>
+        </div>
+      </section>
+
+      <div className="section-block">
         {loading ? (
-          <div style={{ textAlign: "center", padding: "5rem", color: "rgba(240,244,255,0.3)" }}>Loading…</div>
+          <div style={{ textAlign: "center", padding: "5rem", color: "var(--text-muted)" }}>Loading…</div>
         ) : freelancers.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "5rem", color: "rgba(240,244,255,0.3)" }}>No freelancers yet.</div>
+          <div style={{ textAlign: "center", padding: "5rem", color: "var(--text-muted)" }}>No freelancers yet.</div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: "1.25rem" }}>
-            {freelancers.map(f => <FreelancerCard key={f._id} freelancer={f} />)}
+          <div className="cards-grid" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))" }}>
+            {freelancers.map((freelancer) => (
+              <FreelancerCard key={freelancer._id} freelancer={freelancer} />
+            ))}
           </div>
         )}
       </div>
