@@ -21,9 +21,11 @@ export default function HomePage() {
       <section style={{
         minHeight: "92vh", display: "flex", alignItems: "center", justifyContent: "center",
         textAlign: "center", padding: "5rem 5%",
-        background: "radial-gradient(ellipse 80% 60% at 50% 30%, rgba(0,245,228,0.06), transparent)",
+        background: "radial-gradient(ellipse 80% 60% at 50% 30%, var(--hero-glow), transparent)",
         position: "relative", overflow: "hidden",
       }}>
+        <div className="animated-orb orb-a" />
+        <div className="animated-orb orb-b" />
         {/* Dot grid */}
         <div style={{
           position: "absolute", inset: 0, zIndex: 0,
@@ -47,7 +49,7 @@ export default function HomePage() {
           <h1 style={{
             fontFamily: "Space Grotesk", fontSize: "clamp(2.8rem,6.5vw,5rem)",
             fontWeight: 800, lineHeight: 1.0, letterSpacing: "-0.04em",
-            color: "#f0f4ff", marginBottom: "1.5rem",
+            color: "var(--text)", marginBottom: "1.5rem",
           }}>
             Get your tasks done by<br />
             <span style={{ background: "linear-gradient(135deg,#00f5e4,#8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -55,7 +57,7 @@ export default function HomePage() {
             </span>
           </h1>
 
-          <p style={{ fontSize: "1.05rem", color: "rgba(240,244,255,0.5)", maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.8 }}>
+          <p style={{ fontSize: "1.05rem", color: "var(--text-muted)", maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.8 }}>
             Post a micro-task, collect proposals, hire the best — all with secure escrow payment. Fast, simple, reliable.
           </p>
 
@@ -69,11 +71,11 @@ export default function HomePage() {
           </div>
 
           {/* Stats */}
-          <div style={{
+          <div className="hover-lift" style={{
             display: "flex", justifyContent: "center", gap: 0,
             marginTop: "3.5rem", maxWidth: 600, margin: "3.5rem auto 0",
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.1)",
+            background: "var(--surface)",
+            border: "1px solid var(--border)",
             borderRadius: 20, overflow: "hidden",
           }}>
             {[["12K+", "Tasks Done"], ["850+", "Freelancers"], ["4.9★", "Avg Rating"], ["$2M+", "Paid Out"]].map(([num, label], i, arr) => (
@@ -81,8 +83,8 @@ export default function HomePage() {
                 flex: 1, padding: "1.1rem 0.875rem", textAlign: "center",
                 borderRight: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
-                <div style={{ fontFamily: "Space Grotesk", fontSize: "1.5rem", fontWeight: 800, color: "#f0f4ff", lineHeight: 1 }}>{num}</div>
-                <div style={{ fontSize: "0.65rem", color: "rgba(240,244,255,0.3)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "Space Grotesk" }}>{label}</div>
+                <div style={{ fontFamily: "Space Grotesk", fontSize: "1.5rem", fontWeight: 800, color: "var(--text)", lineHeight: 1 }}>{num}</div>
+                <div style={{ fontSize: "0.65rem", color: "var(--text-muted)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "Space Grotesk" }}>{label}</div>
               </div>
             ))}
           </div>
@@ -155,13 +157,13 @@ export default function HomePage() {
               { num: "02", title: "Get Proposals", desc: "Freelancers pitch their approach and price. Compare and choose the best fit.", color: "#8b5cf6" },
               { num: "03", title: "Hire & Pay", desc: "Pay securely via Stripe escrow. Release payment when you approve the work.", color: "#f472b6" },
             ].map(({ num, title, desc, color }) => (
-              <div key={num} className="glass-card" style={{ borderRadius: 20, padding: "2rem", position: "relative", overflow: "hidden" }}
+              <div key={num} className="glass-card hover-lift" style={{ borderRadius: 20, padding: "2rem", position: "relative", overflow: "hidden" }}
                 onMouseOver={e => e.currentTarget.style.borderColor = `${color}40`}
                 onMouseOut={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"}
               >
                 <div style={{ fontFamily: "Space Grotesk", fontSize: "4rem", fontWeight: 800, color: `${color}15`, lineHeight: 1, marginBottom: "1.25rem" }}>{num}</div>
-                <h3 style={{ fontFamily: "Space Grotesk", fontSize: "1.05rem", fontWeight: 700, color: "#f0f4ff", marginBottom: "0.5rem" }}>{title}</h3>
-                <p style={{ fontSize: "0.875rem", color: "rgba(240,244,255,0.4)", lineHeight: 1.7 }}>{desc}</p>
+                <h3 style={{ fontFamily: "Space Grotesk", fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.5rem" }}>{title}</h3>
+                <p style={{ fontSize: "0.875rem", color: "var(--text-muted)", lineHeight: 1.7 }}>{desc}</p>
               </div>
             ))}
           </div>
@@ -182,7 +184,7 @@ export default function HomePage() {
               { icon: "🤖", name: "Other", color: "#10b981" },
             ].map(({ icon, name, color }) => (
               <Link key={name} href={`/tasks?category=${name}`} style={{ textDecoration: "none" }}>
-                <div className="glass-card" style={{
+                <div className="glass-card hover-lift" style={{
                   borderRadius: 16, padding: "1.5rem 1rem", textAlign: "center",
                   cursor: "pointer", transition: "all 0.3s",
                 }}

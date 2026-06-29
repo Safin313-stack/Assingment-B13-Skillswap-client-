@@ -7,7 +7,7 @@ export default function FreelancerCard({ freelancer }) {
 
   return (
     <Link href={`/freelancers/${encodeURIComponent(freelancer.email)}`} style={{ textDecoration: "none" }}>
-      <div style={{
+      <div className="hover-lift" style={{
         background: "linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))",
         border: "1px solid rgba(255,255,255,0.1)",
         borderRadius: 20, overflow: "hidden", cursor: "pointer",

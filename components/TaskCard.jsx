@@ -15,7 +15,7 @@ export default function TaskCard({ task }) {
 
   return (
     <Link href={`/tasks/${task._id}`} style={{ textDecoration: "none" }}>
-      <div style={{
+      <div className="hover-lift" style={{
         background: "linear-gradient(145deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02))",
         border: "1px solid rgba(255,255,255,0.09)",
         borderRadius: 18,

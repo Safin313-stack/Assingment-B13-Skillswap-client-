@@ -1,11 +1,29 @@
 "use client";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const savedTheme = localStorage.getItem("skillswap-theme");
+    const initialTheme = savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    setTheme(initialTheme);
+    document.documentElement.setAttribute("data-theme", initialTheme);
+    document.documentElement.style.colorScheme = initialTheme;
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    document.documentElement.style.colorScheme = nextTheme;
+    localStorage.setItem("skillswap-theme", nextTheme);
+  };
 
   const getDashboardPath = () => {
     if (!user) return "/auth";
@@ -17,8 +35,8 @@ export default function Navbar() {
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: "rgba(2,4,15,0.85)", backdropFilter: "blur(20px)",
-      borderBottom: "1px solid rgba(255,255,255,0.07)",
+      background: "var(--surface)", backdropFilter: "blur(20px)",
+      borderBottom: "1px solid var(--border)",
       padding: "0 5%",
     }}>
       <div style={{ maxWidth: 1240, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
@@ -35,28 +53,32 @@ export default function Navbar() {
             <polygon points="20,2 36,14 36,28 20,38 4,28 4,14" fill="rgba(0,245,228,0.15)" stroke="url(#lg)" strokeWidth="1.5" />
             <circle cx="20" cy="20" r="3" fill="#00f5e4" />
           </svg>
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "1.15rem", color: "#f0f4ff" }}>
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "1.15rem", color: "var(--text)" }}>
             Skill<span style={{ color: "#00f5e4" }}>Swap</span>
           </span>
         </Link>
 
         {/* Nav links */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-          <Link href="/" style={{ fontFamily: "Space Grotesk", fontSize: "0.875rem", color: "rgba(240,244,255,0.6)", textDecoration: "none", padding: "0.4rem 0.875rem", borderRadius: 50 }}
-            onMouseOver={e => e.target.style.color = "#f0f4ff"}
-            onMouseOut={e => e.target.style.color = "rgba(240,244,255,0.6)"}>
+          <Link href="/" style={{ fontFamily: "Space Grotesk", fontSize: "0.875rem", color: "var(--text-soft)", textDecoration: "none", padding: "0.4rem 0.875rem", borderRadius: 50 }}
+            onMouseOver={e => e.target.style.color = "var(--text)"}
+            onMouseOut={e => e.target.style.color = "var(--text-soft)"}>
             Home
           </Link>
-          <Link href="/tasks" style={{ fontFamily: "Space Grotesk", fontSize: "0.875rem", color: "rgba(240,244,255,0.6)", textDecoration: "none", padding: "0.4rem 0.875rem", borderRadius: 50 }}
-            onMouseOver={e => e.target.style.color = "#f0f4ff"}
-            onMouseOut={e => e.target.style.color = "rgba(240,244,255,0.6)"}>
+          <Link href="/tasks" style={{ fontFamily: "Space Grotesk", fontSize: "0.875rem", color: "var(--text-soft)", textDecoration: "none", padding: "0.4rem 0.875rem", borderRadius: 50 }}
+            onMouseOver={e => e.target.style.color = "var(--text)"}
+            onMouseOut={e => e.target.style.color = "var(--text-soft)"}>
             Browse Tasks
           </Link>
-          <Link href="/freelancers" style={{ fontFamily: "Space Grotesk", fontSize: "0.875rem", color: "rgba(240,244,255,0.6)", textDecoration: "none", padding: "0.4rem 0.875rem", borderRadius: 50 }}
-            onMouseOver={e => e.target.style.color = "#f0f4ff"}
-            onMouseOut={e => e.target.style.color = "rgba(240,244,255,0.6)"}>
+          <Link href="/freelancers" style={{ fontFamily: "Space Grotesk", fontSize: "0.875rem", color: "var(--text-soft)", textDecoration: "none", padding: "0.4rem 0.875rem", borderRadius: 50 }}
+            onMouseOver={e => e.target.style.color = "var(--text)"}
+            onMouseOut={e => e.target.style.color = "var(--text-soft)"}>
             Browse Freelancers
           </Link>
+
+          <button onClick={toggleTheme} className="theme-toggle" style={{ marginLeft: "0.35rem", fontSize: "0.85rem", fontFamily: "Space Grotesk" }}>
+            {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+          </button>
 
           {user ? (
             <>
