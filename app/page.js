@@ -5,6 +5,78 @@ import api from "@/lib/axios";
 import TaskCard from "@/components/TaskCard";
 import FreelancerCard from "@/components/FreelancerCard";
 
+const demoTasks = [
+  {
+    _id: "demo-t-1",
+    title: "Design a landing page for a startup",
+    description: "Create a polished homepage with a strong call-to-action and brand visuals.",
+    category: "Design",
+    deadline: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 260,
+    client_email: "nina@example.com",
+  },
+  {
+    _id: "demo-t-2",
+    title: "Write product descriptions for an online store",
+    description: "Draft compelling copy for 10 product listings in a new collection.",
+    category: "Writing",
+    deadline: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 180,
+    client_email: "mark@example.com",
+  },
+  {
+    _id: "demo-t-3",
+    title: "Build a React pricing card component",
+    description: "Create a responsive pricing section with clean spacing and hover states.",
+    category: "Development",
+    deadline: new Date(Date.now() + 9 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 310,
+    client_email: "alexa@example.com",
+  },
+  {
+    _id: "demo-t-4",
+    title: "Plan a launch social media campaign",
+    description: "Outline copy and visuals for three launch posts plus two ad variants.",
+    category: "Marketing",
+    deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 220,
+    client_email: "josh@example.com",
+  },
+];
+
+const demoFreelancers = [
+  {
+    _id: "demo-f-1",
+    name: "Maya Santos",
+    email: "maya.santos@example.com",
+    bio: "UI/UX designer who builds polished landing pages and intuitive interfaces.",
+    skills: ["Figma", "Branding", "Web Design"],
+    hourlyRate: 40,
+    avgRating: 5,
+    totalJobs: 24,
+  },
+  {
+    _id: "demo-f-2",
+    name: "Ayan Patel",
+    email: "ayan.patel@example.com",
+    bio: "React developer building fast, responsive web apps and reusable components.",
+    skills: ["React", "Next.js", "TypeScript"],
+    hourlyRate: 45,
+    avgRating: 4,
+    totalJobs: 18,
+  },
+  {
+    _id: "demo-f-3",
+    name: "Sofia Kim",
+    email: "sofia.kim@example.com",
+    bio: "Content writer specializing in product copy, emails, and brand messaging.",
+    skills: ["Copywriting", "SEO", "Storytelling"],
+    hourlyRate: 32,
+    avgRating: 5,
+    totalJobs: 30,
+  },
+];
+
 const processSteps = [
   {
     num: "01",
@@ -96,11 +168,11 @@ export default function HomePage() {
           <h2 className="section-title">Latest open tasks</h2>
         </div>
 
-        {tasks.length === 0 ? (
+        {(tasks.length === 0 ? demoTasks : tasks).length === 0 ? (
           <p className="section-copy center-copy">No tasks yet. Be the first to post!</p>
         ) : (
           <div className="cards-grid" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))" }}>
-            {tasks.map((task) => (
+            {(tasks.length === 0 ? demoTasks : tasks).map((task) => (
               <TaskCard key={task._id} task={task} />
             ))}
           </div>
@@ -119,11 +191,11 @@ export default function HomePage() {
           <h2 className="section-title">Best freelancers</h2>
         </div>
 
-        {freelancers.length === 0 ? (
+        {(freelancers.length === 0 ? demoFreelancers : freelancers).length === 0 ? (
           <p className="section-copy center-copy">No freelancers yet.</p>
         ) : (
           <div className="cards-grid" style={{ gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))" }}>
-            {freelancers.map((freelancer) => (
+            {(freelancers.length === 0 ? demoFreelancers : freelancers).map((freelancer) => (
               <FreelancerCard key={freelancer._id} freelancer={freelancer} />
             ))}
           </div>

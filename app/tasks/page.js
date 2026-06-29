@@ -6,6 +6,99 @@ import TaskCard from "@/components/TaskCard";
 
 const CATEGORIES = ["All", "Design", "Writing", "Development", "Marketing", "Other"];
 
+const demoTasks = [
+  {
+    _id: "demo-1",
+    title: "Design a landing page for a startup",
+    description: "Create a clean, responsive homepage with brand visuals and strong CTAs.",
+    category: "Design",
+    deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 240,
+    client_email: "nina@example.com",
+  },
+  {
+    _id: "demo-2",
+    title: "Write product descriptions for an e-commerce store",
+    description: "Draft short and engaging product copy for 12 items in a new collection.",
+    category: "Writing",
+    deadline: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 180,
+    client_email: "mark@example.com",
+  },
+  {
+    _id: "demo-3",
+    title: "Build a React landing page component",
+    description: "Develop a reusable hero section with animated buttons and responsive layout.",
+    category: "Development",
+    deadline: new Date(Date.now() + 9 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 320,
+    client_email: "alexa@example.com",
+  },
+  {
+    _id: "demo-4",
+    title: "Create a social media campaign plan",
+    description: "Outline three weekly posts and ad copy for a product launch.",
+    category: "Marketing",
+    deadline: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 210,
+    client_email: "josh@example.com",
+  },
+  {
+    _id: "demo-5",
+    title: "Proofread and polish website content",
+    description: "Review existing copy and improve tone, grammar, and clarity.",
+    category: "Writing",
+    deadline: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 120,
+    client_email: "tara@example.com",
+  },
+  {
+    _id: "demo-6",
+    title: "Set up Stripe payments for a freelance service",
+    description: "Integrate Stripe checkout with product and pricing details.",
+    category: "Development",
+    deadline: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 380,
+    client_email: "peter@example.com",
+  },
+  {
+    _id: "demo-7",
+    title: "Design a mobile app icon set",
+    description: "Create five app icons that work across iOS and Android.",
+    category: "Design",
+    deadline: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 260,
+    client_email: "miya@example.com",
+  },
+  {
+    _id: "demo-8",
+    title: "Create a launch email sequence",
+    description: "Write three emails to introduce a new product to subscribers.",
+    category: "Marketing",
+    deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 175,
+    client_email: "ada@example.com",
+  },
+  {
+    _id: "demo-9",
+    title: "Build a reusable pricing card UI",
+    description: "Implement a responsive pricing table for a SaaS homepage.",
+    category: "Development",
+    deadline: new Date(Date.now() + 11 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 300,
+    client_email: "kyle@example.com",
+  },
+  {
+    _id: "demo-10",
+    title: "Create a brand style guide summary",
+    description: "Document visual guidelines, fonts, and color palette for a new startup.",
+    category: "Other",
+    deadline: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000).toISOString(),
+    budget: 140,
+    client_email: "nora@example.com",
+  },
+];
+
 function TasksPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -29,11 +122,14 @@ function TasksPageContent() {
       if (category !== "All") params.append("category", category);
 
       const res = await api.get(`/api/tasks?${params}`);
-      setTasks(res.data.tasks);
-      setTotal(res.data.total);
-      setTotalPages(res.data.totalPages);
+      const responseTasks = res.data.tasks || [];
+      setTasks(responseTasks);
+      setTotal(res.data.total || responseTasks.length);
+      setTotalPages(res.data.totalPages || 1);
     } catch {
       setTasks([]);
+      setTotal(0);
+      setTotalPages(1);
     } finally {
       setLoading(false);
     }
@@ -57,6 +153,10 @@ function TasksPageContent() {
     e.preventDefault();
     updateQuery({ search: searchInput });
   };
+
+  const showDemoTasks = !loading && !search && category === "All" && tasks.length === 0;
+  const displayedTasks = showDemoTasks ? demoTasks : tasks;
+  const taskCount = showDemoTasks ? demoTasks.length : total;
 
   return (
     <div style={{ paddingTop: 64, minHeight: "100vh" }}>
@@ -97,7 +197,8 @@ function TasksPageContent() {
             marginBottom: "1.75rem",
           }}
         >
-          {total} tasks available right now
+          {taskCount} tasks available right now
+          {showDemoTasks ? " — demo preview data shown" : ""}
         </p>
 
         {/* Search */}
@@ -180,7 +281,7 @@ function TasksPageContent() {
           >
             Loading tasks…
           </div>
-        ) : tasks.length === 0 ? (
+        ) : displayedTasks.length === 0 ? (
           <div style={{ textAlign: "center", padding: "5rem" }}>
             <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>🔍</div>
             <p style={{ color: "rgba(240,244,255,0.3)", fontFamily: "Space Grotesk" }}>
@@ -195,7 +296,7 @@ function TasksPageContent() {
               gap: "1.25rem",
             }}
           >
-            {tasks.map((task) => (
+            {displayedTasks.map((task) => (
               <TaskCard key={task._id} task={task} />
             ))}
           </div>
